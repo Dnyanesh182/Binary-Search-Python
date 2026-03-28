@@ -1,62 +1,59 @@
-# UC8 – Compare Binary Search performance with Linear Search
+# UC9 – Implement Binary Search on rotated sorted array
 
 from typing import List
-import time
 
 
 class BinarySearch:
+    """Class to implement Binary Search on rotated sorted array."""
+
     @staticmethod
     def search(data: List[int], target: int) -> int:
-        low = 0
-        high = len(data) - 1
+        """
+        Searches target in rotated sorted array.
+
+        :param data: Rotated sorted list
+        :param target: Element to search
+        :return: Index or -1
+        """
+        low: int = 0
+        high: int = len(data) - 1
 
         while low <= high:
-            mid = (low + high) // 2
+            mid: int = (low + high) // 2
+
             if data[mid] == target:
                 return mid
-            elif target < data[mid]:
-                high = mid - 1
+
+            # Left half is sorted
+            if data[low] <= data[mid]:
+                if data[low] <= target < data[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            # Right half is sorted
             else:
-                low = mid + 1
+                if data[mid] < target <= data[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
 
         return -1
-
-
-class LinearSearch:
-    @staticmethod
-    def search(data: List[int], target: int) -> int:
-        for i, value in enumerate(data):
-            if value == target:
-                return i
-        return -1
-
-
-def compare(size: int) -> None:
-    """Compare Binary Search vs Linear Search."""
-    data: List[int] = list(range(size))
-    target: int = data[-1] if data else -1
-
-    start = time.time()
-    BinarySearch.search(data, target)
-    binary_time = time.time() - start
-
-    start = time.time()
-    LinearSearch.search(data, target)
-    linear_time = time.time() - start
-
-    print(f"Input Size: {size}")
-    print(f"Binary Search: {binary_time:.6f}s")
-    print(f"Linear Search: {linear_time:.6f}s")
-    print("-" * 40)
 
 
 def main() -> None:
     """Main execution function."""
-    sizes: List[int] = [10, 100, 1000, 10000]
+    data: List[int] = [4, 5, 6, 7, 0, 1, 2]
+    target: int = 0
 
-    print("Performance Comparison: Binary Search vs Linear Search")
-    for size in sizes:
-        compare(size)
+    print("Rotated Array:", data)
+    print("Target:", target)
+
+    index: int = BinarySearch.search(data, target)
+
+    if index != -1:
+        print(f"Element found at index: {index}")
+    else:
+        print("Element not found")
 
 
 if __name__ == "__main__":
