@@ -1,50 +1,40 @@
-# UC2 – Implement Binary Search using recursive approach
+# UC3 – Handle element not found case with proper return value
 
 from typing import List
 
 
 class BinarySearch:
-    """Class to implement recursive Binary Search."""
+    """Class to implement Binary Search with not-found handling."""
 
     @staticmethod
     def search(data: List[int], target: int) -> int:
         """
-        Public method to initiate recursive search.
+        Searches for target and returns index or -1 if not found.
 
         :param data: Sorted list of integers
         :param target: Element to search
-        :return: Index of target or -1 if not found
-        """
-        return BinarySearch._search_recursive(data, target, 0, len(data) - 1)
-
-    @staticmethod
-    def _search_recursive(data: List[int], target: int, low: int, high: int) -> int:
-        """
-        Recursive Binary Search helper.
-
-        :param data: Sorted list
-        :param target: Element to search
-        :param low: Lower bound index
-        :param high: Upper bound index
         :return: Index or -1
         """
-        if low > high:
-            return -1
+        low: int = 0
+        high: int = len(data) - 1
 
-        mid: int = (low + high) // 2
+        while low <= high:
+            mid: int = (low + high) // 2
 
-        if data[mid] == target:
-            return mid
-        elif target < data[mid]:
-            return BinarySearch._search_recursive(data, target, low, mid - 1)
-        else:
-            return BinarySearch._search_recursive(data, target, mid + 1, high)
+            if data[mid] == target:
+                return mid
+            elif target < data[mid]:
+                high = mid - 1
+            else:
+                low = mid + 1
+
+        return -1
 
 
 def main() -> None:
     """Main execution function."""
     data: List[int] = [11, 12, 22, 25, 34, 64, 90]
-    target: int = 34
+    target: int = 50  # not present
 
     print("Array:", data)
     print("Target:", target)
@@ -54,7 +44,7 @@ def main() -> None:
     if index != -1:
         print(f"Element found at index: {index}")
     else:
-        print("Element not found")
+        print("Element not found (returned -1)")
 
 
 if __name__ == "__main__":
