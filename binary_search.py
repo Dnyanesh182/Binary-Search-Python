@@ -1,54 +1,50 @@
-# UC4 – Count number of comparisons performed during search
+# UC5 – Apply Binary Search on list of strings (lexicographical order)
 
-from typing import List, Tuple
+from typing import List
 
 
 class BinarySearch:
-    """Class to implement Binary Search with comparison counting."""
+    """Class to implement Binary Search for strings."""
 
     @staticmethod
-    def search(data: List[int], target: int) -> Tuple[int, int]:
+    def search(data: List[str], target: str) -> int:
         """
-        Searches for target and counts comparisons.
+        Searches for target string in sorted list.
 
-        :param data: Sorted list
-        :param target: Element to search
-        :return: (index, comparisons)
+        :param data: Sorted list of strings
+        :param target: String to search
+        :return: Index or -1
         """
         low: int = 0
         high: int = len(data) - 1
-        comparisons: int = 0
 
         while low <= high:
             mid: int = (low + high) // 2
-            comparisons += 1
 
             if data[mid] == target:
-                return mid, comparisons
+                return mid
             elif target < data[mid]:
                 high = mid - 1
             else:
                 low = mid + 1
 
-        return -1, comparisons
+        return -1
 
 
 def main() -> None:
     """Main execution function."""
-    data: List[int] = [11, 12, 22, 25, 34, 64, 90]
-    target: int = 34
+    data: List[str] = ["apple", "banana", "cherry", "date"]
+    target: str = "cherry"
 
     print("Array:", data)
     print("Target:", target)
 
-    index, comparisons = BinarySearch.search(data, target)
+    index: int = BinarySearch.search(data, target)
 
     if index != -1:
         print(f"Element found at index: {index}")
     else:
         print("Element not found")
-
-    print("Total Comparisons:", comparisons)
 
 
 if __name__ == "__main__":
